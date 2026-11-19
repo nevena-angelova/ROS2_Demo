@@ -67,6 +67,8 @@ source install/setup.bash
    ros2 launch webots_ros2_epuck robot_launch.py
    ```
 
+   ![E-Puck in the Webots simulator](docs/images/epuck_simulator.webp)
+
 2. In separate terminals, start the nodes:
 
    ```bash
@@ -79,6 +81,10 @@ source install/setup.bash
 
 The robot drives forward in a gentle curve. When an obstacle comes within 4 cm of the front sensors, it slows down and turns more sharply. The logs show the change: `move_forward_node` reports `Obstacle detected!` and switches from `linear.x=0.09, angular.z=0.30` to `linear.x=0.02, angular.z=0.50`. `obstacle_detector_node` logs each sensor reading.
 
+![move_forward_node log: velocity commands change when an obstacle is detected](docs/images/move_node_log.png)
+
+![obstacle_detector_node log: IR sensor readings](docs/images/obstacle_detector_log.png)
+
 ## Visualizing the communication
 
 Use `rqt_graph` to see the running nodes (ellipses), the topics (rectangles) and the publish/subscribe direction of the data flow:
@@ -86,5 +92,7 @@ Use `rqt_graph` to see the running nodes (ellipses), the topics (rectangles) and
 ```bash
 rqt_graph
 ```
+
+![rqt_graph of the running system](docs/images/rqt_graph.png)
 
 The graph shows the E-Puck driver publishing `/ps0` … `/ps7` to `obstacle_detector_node`, then `/obstacle_detected` to `move_forward_node`, then `/cmd_vel` back to the robot's controller.
